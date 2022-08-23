@@ -1,0 +1,35 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authservice-deployment
+  labels:
+    app: AuthService
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: AuthService
+  template: 
+    metadata: 
+      labels:
+        app: AuthService
+    spec:
+      containers:
+      - name: authservice
+        image: returnorderacr.azurecr.io/authserviceimage:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: returnordersecret
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: authservicesvc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    api: AuthService
+    #--
