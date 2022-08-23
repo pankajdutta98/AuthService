@@ -13,7 +13,7 @@ RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:3.1
 WORKDIR /app
-COPY --from-build=build-env /app/out .
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "AuthService.dll"]
 
 #FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
